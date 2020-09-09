@@ -107,6 +107,11 @@ afterDrop(el) {
 ```
 **动画的原理是**：点击时，将动画小球设置到点击元素所在的位置。主要通过 `getBoundingClientRect()` 获取点击元素的位置属性。通过 CSS3 `transform:translate3d(*,*,*)` 设置小球的动画开始时位置属性。动画进行中给小球设置目的地属性 `transform:translate3d(0,0,0)` 即小球CSS 定义的位置。抛物线轨迹是通过 `transition: all 0.4s cubic-bezier(0.49,-0.29,0.75,0.41);` 中的 `cubic-bezier(0.49,-0.29,0.75,0.41)` 实现。当动画结束时 `this.dropBalls.shift()` 移除运动过的一个小球。
 
-有一点需要说明的是 `let rf = el.offsetHeight;` 这段代码看似无用实际不能省略。作用是 `必须重绘，再进行transform才有用`。如果缺少这行代码会出现: "每次第一次小球不是在点击处开始动画, 而第二次又正常" 的问题
+有一点需要说明的是 `let rf = el.offsetHeight;` 这段代码看似无用实际不能省略。作用是 `必须重绘，再进行transform才有用`, `offsetHeight` 是触发页面重绘的方式之一。如果缺少这行代码会出现: "每次第一次小球不是在点击处开始动画, 而第二次又正常" 的问题
 
 更多详情请查看源码 `components/Shopcart/index.vue`
+
+
+## 参考资料
+
++ [网页性能管理详解](http://www.ruanyifeng.com/blog/2015/09/web-page-performance-in-depth.html)
